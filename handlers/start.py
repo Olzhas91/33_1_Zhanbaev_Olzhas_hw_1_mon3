@@ -1,7 +1,8 @@
 from aiogram import types, Dispatcher
-from config import bot
+from config import bot, ADMIN_ID
 from const import START_TEXT
 from database.sql_commands import Database
+
 
 
 async def start_button(message: types.Message):
@@ -11,6 +12,7 @@ async def start_button(message: types.Message):
         first_name=message.from_user.first_name,
         last_name=message.from_user.last_name
     )
+
     print(message)
     await bot.send_message(
         chat_id=message.chat.id,
@@ -20,6 +22,27 @@ async def start_button(message: types.Message):
         parse_mode=types.ParseMode.MARKDOWN
     )
 
+async def secret_word(message: types.Message):
+    if message.chat.id == ADMIN_ID:
+        await bot.delete_message(
+            chat_id=message.chat.id,
+            message_id=message.message_id
+        )
+        await bot.send_message(
+            chat_id=message.from_user.id,
+            text='Да мистер... кто?'
+        )
+    else:
+        await bot.delete_message(
+            chat_id=message.chat.id,
+            message_id=message.message_id
+        )
+        await bot.send_message(
+            chat_id=message.from_user.id,
+            text='Вы не мситер Старк'
+        )
 
 def register_start_handlers(dp: Dispatcher):
     dp.register_message_handler(start_button, commands=['start'])
+    dp.register_message_handler(secret_word,
+                                lambda  word: 'YmudY' in word.text)
