@@ -2,6 +2,7 @@ from aiogram import types, Dispatcher
 from config import bot, ADMIN_ID
 from const import START_TEXT
 from database.sql_commands import Database
+from keyboards.Inline_buttons import start_keyboard
 
 
 
@@ -19,7 +20,8 @@ async def start_button(message: types.Message):
         text=START_TEXT.format(
             username=message.from_user.username
         ),
-        parse_mode=types.ParseMode.MARKDOWN
+        parse_mode=types.ParseMode.MARKDOWN,
+        reply_markup=await start_keyboard()
     )
 
 async def secret_word(message: types.Message):
