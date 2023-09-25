@@ -4,7 +4,7 @@ from aiogram.dispatcher.filters.state import StatesGroup, State
 
 from config import bot, DESTINATION_DIR
 from database.sql_commands import Database
-from keyboards.Inline_buttons import my_profile_keyboard
+from keyboards.inline_buttons import my_profile_keyboard
 
 
 class FormStates(StatesGroup):
@@ -120,6 +120,7 @@ async def load_photo(message: types.Message,
         )
         await message.reply(text='Регистрация прошла успешно')
         await state.finish()
+
 
 
 def register_fsm_form_handlers(dp: Dispatcher):

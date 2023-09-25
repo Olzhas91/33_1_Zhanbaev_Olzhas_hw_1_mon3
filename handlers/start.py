@@ -2,7 +2,7 @@ from aiogram import types, Dispatcher
 from config import bot, ADMIN_ID
 from const import START_TEXT
 from database.sql_commands import Database
-from keyboards.Inline_buttons import start_keyboard
+from keyboards.inline_buttons import start_keyboard
 
 
 
