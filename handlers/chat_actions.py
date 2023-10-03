@@ -38,7 +38,7 @@ async def echo_ban(message: types.Message):
                 )
                 await bot.send_message(
                     chat_id=message.chat.id,
-                    text='Эй ты... рот свои замолчал!'
+                    text='Гори! Еретик!!!'
                 )
 
 

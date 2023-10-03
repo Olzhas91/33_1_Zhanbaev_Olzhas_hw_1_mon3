@@ -3,12 +3,10 @@ from aiogram import types, Dispatcher
 
 from const import REFERENCE_MENU_TEXT
 from database.sql_commands import Database
-import keyboards.inline_buttons
+from keyboards.Inline_buttons import reference_menu_keyboard
 import os
 import binascii
 from aiogram.utils.deep_linking import _create_link
-
-from keyboards.Inline_buttons import reference_menu_keyboard
 
 
 async def reference_menu_call(call: types.CallbackQuery):
@@ -37,14 +35,14 @@ async def reference_list_owner(call: types.CallbackQuery):
     else:
         await bot.send_message(
             chat_id=call.from_user.id,
-            text='You have no referrals',
+            text='У тебя пока нету призывников',
             parse_mode=types.ParseMode.MARKDOWN
         )
 
 
 async def reference_link_generation(call: types.CallbackQuery):
     token = binascii.hexlify(os.urandom(8)).decode()
-    link = await _create_link(link_type='start', payload=token)
+    link = await _create_link(link_type="start", payload=token)
     user = Database().sql_select_user_command(
         telegram_id=call.from_user.id
     )
@@ -55,18 +53,18 @@ async def reference_link_generation(call: types.CallbackQuery):
         )
         await bot.send_message(
             chat_id=call.from_user.id,
-            text=f'Твоя агитационная ссылка\n'
-                 f'{link}'
+            text=f"Вот твоя реферальная ссылка\n"
+                 f"{link}"
         )
     else:
         await bot.send_message(
             chat_id=call.from_user.id,
-            text=f'Эй боец ты что? Вот же твоя реферальная ссылка из БД\n'
+            text=f"Вот твоя реферальная ссылка из БД\n"
                  f"{user[0]['link']}"
         )
 
 
 def register_reference_handlers(dp: Dispatcher):
-    dp.register_callback_query_handler(reference_menu_call, lambda call: call.data == 'referral_menu')
-    dp.register_callback_query_handler(reference_link_generation, lambda call: call.data == 'reference_link')
-    dp.register_callback_query_handler(reference_list_owner, lambda call: call.data == 'reference_list')
+    dp.register_callback_query_handler(reference_menu_call, lambda call: call.data == "referral_menu")
+    dp.register_callback_query_handler(reference_link_generation, lambda call: call.data == "reference_link")
+    dp.register_callback_query_handler(reference_list_owner, lambda call: call.data == "reference_list")

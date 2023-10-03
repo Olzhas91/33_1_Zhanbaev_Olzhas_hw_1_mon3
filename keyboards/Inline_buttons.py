@@ -38,36 +38,31 @@ async def my_profile_keyboard():
     )
     return markup
 
-async def like_dislike_keyboard(telegram_id):
-    markup = InlineKeyboardMarkup()
-    like_button = InlineKeyboardButton(
-        '👍🏻',
-        callback_data=f'_like_{telegram_id}'
-    )
-    dislike_button = InlineKeyboardButton(
-        '👎🏻',
-        callback_data='random_profile'
-    )
-    markup.add(
-        like_button
-    ).add(
-        dislike_button
-    )
-    return markup
-
 async def reference_menu_keyboard():
     markup = InlineKeyboardMarkup()
     reference_link_button = InlineKeyboardButton(
-        'Сгенерировать ссылку',
-        callback_data='reference_link'
+        'Создать ссылку для призывников',
+        callback_data="reference_link"
     )
     reference_list_button = InlineKeyboardButton(
-        'Список рефералов',
+        'Список призванных',
         callback_data='reference_list'
     )
     markup.add(
         reference_link_button
     ).add(
         reference_list_button
+    )
+    return markup
+
+async def send_complaint_button():
+    markup = InlineKeyboardMarkup()
+    complaint_button = InlineKeyboardButton(
+        'Жалоба',
+        callback_data='complaint'
+    )
+
+    markup.add(
+        complaint_button
     )
     return markup

@@ -4,7 +4,7 @@ from aiogram.dispatcher.filters.state import StatesGroup, State
 
 from config import bot, DESTINATION_DIR
 from database.sql_commands import Database
-from keyboards.inline_buttons import my_profile_keyboard
+from keyboards.Inline_buttons import my_profile_keyboard
 
 
 class FormStates(StatesGroup):
@@ -23,13 +23,13 @@ async def fsm_start(call: types.CallbackQuery):
     if user:
         await bot.send_message(
             chat_id=call.message.chat.id,
-            text='Регистрация прошла успешно. Показать ваш профиль? ',
+            text='Ты уже состоишь в Имперской Гвардии. Показать твои данные? ',
             reply_markup=await my_profile_keyboard()
         )
     else:
         await bot.send_message(
             chat_id=call.message.chat.id,
-            text='Введите свои никнейм'
+            text='Введите свои никнейм(Позывной)'
         )
         await FormStates.nickname.set()
 
@@ -41,7 +41,7 @@ async def load_nickname(message: types.Message,
         print(data)
     await FormStates.next()
     await message.reply(
-        'Напишите свою мини биографию'
+        'Расскажи о себе немного своему комиссару солдат'
     )
 
 
@@ -52,7 +52,7 @@ async def load_bio(message: types.Message,
         print(data)
     await FormStates.next()
     await message.reply(
-        'Введите свои возрат (Только цифры!!!)'
+        'Сколкьо тебе лет солдат? (Только цифры!!!)'
     )
 
 
@@ -61,7 +61,7 @@ async def load_age(message: types.Message,
     try:
         if type(int(message.text)) != int:
             await message.reply(
-                text='Ну вот... я же говорил толькл цифры вводить '
+                text='Ты недотепа! Я же влеел вводить тольок цифры!!! '
                      'давай все заново теперь'
             )
             await state.finish()
@@ -71,12 +71,12 @@ async def load_age(message: types.Message,
                 print(data)
             await FormStates.next()
             await message.reply(
-                'Кем вы работаете?'
+                'Твоя специализация солдат?'
             )
     except ValueError as e:
         await state.finish()
         await message.reply(
-            text='Ну вот... я же говорил толькл цифры вводить '
+            text='Ты недотепа! Я же влеел вводить тольок цифры!!! '
                     'давай все заново теперь'
         )
 
@@ -87,7 +87,7 @@ async def load_occupation(message: types.Message,
         print(data)
     await FormStates.next()
     await message.reply(
-        'Состоите ли вы в браке? Если не хотите отвечеть поставьте -'
+        'Есть ли у тебя жена или муж боец? Впрочем не важно... можешь поставить прочерк если хочешь -'
     )
 
 
@@ -98,7 +98,7 @@ async def load_married(message: types.Message,
         print(data)
     await FormStates.next()
     await message.reply(
-        'Пришлите свое фото. Отправляйте именно через фото... а не файл!'
+        'Прикрепи фото к личному делу солдат. Отправляйте именно через фото... а не файл!'
     )
 
 
@@ -118,8 +118,29 @@ async def load_photo(message: types.Message,
             married=data['married'],
             photo=path.name,
         )
-        await message.reply(text='Регистрация прошла успешно')
+        await message.reply(text='Регистрация прошла успешно солдат теперь ты боец Имперской Гвардии Астра Милитарум')
         await state.finish()
+
+async def send_complaint_button(call: types.CallbackQuery):
+    Database().sql_delete_user_form_command(
+        telegram_id=call.from_user.id
+    )
+    await bot.send_message(
+        chat_id=call.from_user.id,
+        text="You have deleted form successfully"
+    )
+
+async def send_complaint_button():
+    markup = InlineKeyboardMarkup()
+    complaint_button = InlineKeyboardButton(
+        'Жалоба',
+        callback_data='complaint'
+    )
+
+    markup.add(
+        complaint_button
+    )
+    return markup
 
 
 
@@ -138,3 +159,5 @@ def register_fsm_form_handlers(dp: Dispatcher):
                                 content_types=['text'])
     dp.register_message_handler(load_photo, state=FormStates.photo,
                                 content_types=types.ContentTypes.PHOTO)
+    dp.register_callback_query_handler(send_complaint_button,
+                                       lambda call: call.data == 'send_complaint_')

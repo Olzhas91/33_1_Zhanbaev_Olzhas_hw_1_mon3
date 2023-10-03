@@ -5,11 +5,11 @@ from aiogram import types, Dispatcher
 from config import bot
 from const import START_TEXT, PROFILE_CAPTION_TEXT
 from database.sql_commands import Database
-from keyboards.inline_buttons import (
-    question_first_keyboard,
-    like_dislike_keyboard,
-    edit_delete_keyboard, register_keyboard,
-)
+# from keyboards.Inline_buttons import (
+#     question_first_keyboard,
+#     like_dislike_keyboard,
+#     edit_delete_keyboard, register_keyboard,
+# )
 import random
 
 
@@ -54,11 +54,15 @@ async def random_profiles_call(call: types.CallbackQuery):
                 occupation=random_profile['occupation'],
                 married=random_profile['married'],
             ),
-            reply_markup=await like_dislike_keyboard(
-                telegram_id=random_profile['telegram_id']
-            )
+            # reply_markup=await like_dislike_keyboard(
+            #     telegram_id=random_profile['telegram_id']
+            # )
 
         )
+
+async def send_complaint_call(call: types.CallbackQuery):
+    user_forms = Database().sql_select_user_form_command()
+
 
 def register_callback_handlers(dp: Dispatcher):
        dp.register_callback_query_handler(female_answer_call,
@@ -67,3 +71,5 @@ def register_callback_handlers(dp: Dispatcher):
                                        lambda call: call.data == 'my_profile')
        dp.register_callback_query_handler(random_profiles_call,
                                           lambda call: call.data == 'random_profile')
+       dp.register_callback_query_handler(send_complaint_call,
+                                          lambda call: call.data == 'send_complaint')

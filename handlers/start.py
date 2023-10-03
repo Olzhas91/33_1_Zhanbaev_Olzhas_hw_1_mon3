@@ -2,7 +2,7 @@ from aiogram import types, Dispatcher
 from config import bot, ADMIN_ID
 from const import START_TEXT
 from database.sql_commands import Database
-from keyboards.inline_buttons import start_keyboard
+from keyboards.Inline_buttons import start_keyboard
 
 
 
@@ -32,7 +32,7 @@ async def secret_word(message: types.Message):
         )
         await bot.send_message(
             chat_id=message.from_user.id,
-            text='Да мистер... кто?'
+            text='Да о великий!'
         )
     else:
         await bot.delete_message(
@@ -41,7 +41,7 @@ async def secret_word(message: types.Message):
         )
         await bot.send_message(
             chat_id=message.from_user.id,
-            text='Вы не мситер Старк'
+            text='Личность не идентефицированна'
         )
 
 def register_start_handlers(dp: Dispatcher):
