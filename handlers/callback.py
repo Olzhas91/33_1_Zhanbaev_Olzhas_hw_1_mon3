@@ -54,11 +54,7 @@ async def random_profiles_call(call: types.CallbackQuery):
                 occupation=random_profile['occupation'],
                 married=random_profile['married'],
             ),
-            # reply_markup=await like_dislike_keyboard(
-            #     telegram_id=random_profile['telegram_id']
-            # )
-
-        )
+                   )
 
 async def send_complaint_call(call: types.CallbackQuery):
     user_forms = Database().sql_select_user_form_command()

@@ -130,17 +130,17 @@ async def send_complaint_button(call: types.CallbackQuery):
         text="You have deleted form successfully"
     )
 
-async def send_complaint_button():
-    markup = InlineKeyboardMarkup()
-    complaint_button = InlineKeyboardButton(
-        'Жалоба',
-        callback_data='complaint'
-    )
-
-    markup.add(
-        complaint_button
-    )
-    return markup
+# async def send_complaint_button():
+#     markup = InlineKeyboardMarkup()
+#     complaint_button = InlineKeyboardButton(
+#         'Жалоба',
+#         callback_data='complaint'
+#     )
+#
+#     markup.add(
+#         complaint_button
+#     )
+#     return markup
 
 
 

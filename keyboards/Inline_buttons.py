@@ -3,6 +3,7 @@ from aiogram.types import (
     InlineKeyboardButton
 )
 
+
 async def start_keyboard():
     markup = InlineKeyboardMarkup()
     form_start_button = InlineKeyboardButton(
@@ -26,6 +27,7 @@ async def start_keyboard():
     )
     return markup
 
+
 async def my_profile_keyboard():
     markup = InlineKeyboardMarkup()
     profile_button = InlineKeyboardButton(
@@ -37,6 +39,7 @@ async def my_profile_keyboard():
         profile_button
     )
     return markup
+
 
 async def reference_menu_keyboard():
     markup = InlineKeyboardMarkup()
@@ -55,13 +58,13 @@ async def reference_menu_keyboard():
     )
     return markup
 
+
 async def send_complaint_button():
     markup = InlineKeyboardMarkup()
     complaint_button = InlineKeyboardButton(
         'Жалоба',
         callback_data='complaint'
     )
-
     markup.add(
         complaint_button
     )
